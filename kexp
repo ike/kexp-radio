@@ -1,0 +1,17 @@
+#!/bin/bash
+
+stream="mplayer -quiet http://live-aacplus-64.kexp.org/kexp64.aac"
+
+case "$1" in
+	--start)
+		eval $stream &>/var/tmp/mplayer.log &disown
+		;;
+	--stop)
+		eval "pkill mplayer"
+		exit 0
+                ;;
+	--now-playing)
+		line=`tail -1 /var/tmp/mplayer.log | grep -oP "StreamTitle='\K[^']+"`
+		echo "now playing: $line"
+		;;
+esac
