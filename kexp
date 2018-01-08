@@ -12,6 +12,10 @@ case "$1" in
                 ;;
 	--now-playing)
 		line=`tail -1 /var/tmp/mplayer.log | grep -o "StreamTitle='\K[^']+"`
-		echo "now playing: $line"
+
+		case "$param" in
+		  *[!\ ]*) printf "now playing:\n\n $line";;
+		  *) printf "now playing:\n\n ¯\_(ツ)_/¯";;
+		esac		
 		;;
 esac
