@@ -11,6 +11,8 @@ Make sure mplayer is installed. If it's not already available on your system, do
 On most Unix-like systems, just put the shell script in your `/usr/local/bin` and make sure it's executable.
 
 ```
+git clone git@github.com:ike/kexp-radio
+cd kexp-radio
 cp kexp /usr/local/bin
 sudo chmod a+x /usr/local/bin/kexp
 ```
