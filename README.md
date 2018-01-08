@@ -17,7 +17,7 @@ cp kexp /usr/local/bin
 sudo chmod a+x /usr/local/bin/kexp
 ```
 
-## Alarm clock in Cron
+## Alarm clock crontab
 
 Use the included crontab to turn on KEXP as a radio alarm clock. The crontab is currently set to 7am. Check out [Crontab Guru](https://crontab.guru) for a refresher on how to set a cron job correctly.
 
