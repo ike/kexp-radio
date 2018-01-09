@@ -25,4 +25,4 @@ Use the included crontab to turn on KEXP as a radio alarm clock. The crontab is 
 
  - `kexp --start` will start the stream in the background.
  - `kexp --stop` will stop the currently playing stream.
- - `kexp --now-playing` will grab the current song title, if available.
+ - `kexp --np` will grab the current song title, if available.

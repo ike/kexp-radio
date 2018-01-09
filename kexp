@@ -10,12 +10,12 @@ case "$1" in
 		eval "pkill mplayer"
 		exit 0
                 ;;
-	--now-playing)
+	--np)
 		line=`cat /var/tmp/mplayer.log | grep -o "StreamTitle='\K[^']+"`
 
 		case "$param" in
 		  *[!\ ]*) printf "now playing:\n\n $line";;
-		  *) printf "now playing:\n\n ¯\_(ツ)_/¯";;
+		  *) printf "now playing:\n\n ¯\_(ツ)_/¯ \n";;
 		esac		
 		;;
 esac
