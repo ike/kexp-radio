@@ -15,9 +15,8 @@ case "$1" in
   np)
     json="$(curl -s "https://legacy-api.kexp.org/play/?format=json")"
 
-    if [ "$(echo $json | grep "502 Bad Gateway")" != "" ]
-    then
-      printf "now playing:\n\n ¯\_(ツ)_/¯\n\n Bad Gateway \n\n"
+    if [ "$(echo $json | grep "502 Bad Gateway")" != "" ] ; then
+      printf "now playing:\n\n ¯\_(ツ)_/¯\n\n Bad Gateway Error \n\n"
       exit 0
     fi
 
