@@ -18,14 +18,14 @@ spinner()
 }
 
 case "$1" in
-	--start)
+	start)
 		eval $stream &>/var/tmp/mplayer.log &disown
 		;;
-	--stop)
+	stop)
 		eval "pkill mplayer"
 		exit 0
                 ;;
-	--np)
+	np)
     json="$(curl -s "https://legacy-api.kexp.org/play/?format=json")"
     case $(echo $json | grep "502 Bad Gateway") in
       "")
