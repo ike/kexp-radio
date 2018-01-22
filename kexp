@@ -3,16 +3,16 @@
 stream="mplayer -quiet http://live-aacplus-64.kexp.org/kexp64.aac"
 
 case "$1" in
-	start)
-		eval $stream &>/var/tmp/mplayer.log &disown
-		;;
-
-	stop)
-		eval "pkill mplayer"
-		exit 0
+  start)
+    eval $stream &>/var/tmp/mplayer.log &disown
     ;;
 
-	np)
+  stop)
+    eval "pkill mplayer"
+    exit 0
+    ;;
+
+  np)
     json="$(curl -s "https://legacy-api.kexp.org/play/?format=json")"
 
     if [ "$(echo $json | grep "502 Bad Gateway")" != "" ]
