@@ -2,44 +2,46 @@
 
 stream="mplayer -quiet http://live-aacplus-64.kexp.org/kexp64.aac"
 
-spinner()
-{
-    local pid=$1
-    local delay=0.75
-    local spinstr='|/-\'
-    while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
-        local temp=${spinstr#?}
-        printf " [%c]  " "$spinstr"
-        local spinstr=$temp${spinstr%"$temp"}
-        sleep $delay
-        printf "\b\b\b\b\b\b"
-    done
-    printf "    \b\b\b\b"
-}
-
 case "$1" in
 	start)
 		eval $stream &>/var/tmp/mplayer.log &disown
 		;;
+
 	stop)
 		eval "pkill mplayer"
 		exit 0
-                ;;
+    ;;
+
 	np)
     json="$(curl -s "https://legacy-api.kexp.org/play/?format=json")"
-    case $(echo $json | grep "502 Bad Gateway") in
-      "")
-        artist="$(echo $json | python -c "import sys, json; print json.load(sys.stdin)['results'][0]['artist']['name']")"
-        track="$(echo $json | python -c "import sys, json; print json.load(sys.stdin)['results'][0]['track']['name']")"
-        album="$(echo $json | python -c "import sys, json; print json.load(sys.stdin)['results'][0]['release']['name']")"
-        year="$(echo $json | python -c "import sys, json; print json.load(sys.stdin)['results'][0]['releaseevent']['year']")"
-        comment="$(echo $json | python -c "import sys, json; print json.load(sys.stdin)['results'][0]['comments'][0]['text']")"
 
-		    case "$artist" in
-          *[!\ ]*) printf "now playing:\n\n $track, by $artist on $album ($year) \n $comment\n";;
-		      *) printf "now playing:\n\n ¯\_(ツ)_/¯\n $json \n";;
-		    esac
-		  ;;
-      *) printf "now playing:\n\n ¯\_(ツ)_/¯ \n";;
+    if [ "$(echo $json | grep "502 Bad Gateway")" != "" ]
+    then
+      printf "now playing:\n\n ¯\_(ツ)_/¯\n\n Bad Gateway \n\n"
+      exit 0
+    fi
+
+    playtype="$(echo $json | jq '.results[0].playtype.playtypeid')"
+    
+    case $playtype in
+      4)
+        printf "now playing:\n\n Air Break \n\n";;
+
+      1)
+        artist="$(echo $json | jq -r '.results[0].artist.name')"
+        track="$(echo $json | jq '.results[0].track.name')"
+        album="$(echo $json | jq '.results[0].release.name')"
+        year="$(echo $json | jq '.results[0].releaseevent.year')"
+        comment="$(echo $json | jq -r '.results[0].comments[0].text')"
+
+        if [ "$comment" != " " ] ; then
+          printf "now playing:\n\n $track, by $artist on $album ($year) \n $comment\n\n"
+        else
+          printf "now playing:\n\n $track, by $artist on $album ($year) \n\n"
+        fi
+        ;;
+
+      *) printf "now playing:\n\n ¯\_(ツ)_/¯\n $json \n\n";;
     esac
+    ;;
 esac
