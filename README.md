@@ -4,7 +4,7 @@ A tiny script that helps you stream 90.3 KEXP from Seattle Washington. Also incl
 
 ## Requirements
 
-Make sure mplayer is installed. If it's not already available on your system, download and install it here: https://mplayerhq.hu/design7/news.html
+Make sure mplayer is installed. If it's not already available on your system, download and install it here: https://mplayerhq.hu/design7/news.html. You might need to install `jq` as well: https://stedolan.github.io/jq/download/
 
 ## Installation
 
@@ -23,6 +23,6 @@ Use the included crontab to turn on KEXP as a radio alarm clock. The crontab is 
 
 ## Usage
 
- - `kexp --start` will start the stream in the background.
- - `kexp --stop` will stop the currently playing stream.
- - `kexp --np` will grab the current song title, if available.
+ - `kexp start` will start the stream in the background.
+ - `kexp stop` will stop the currently playing stream.
+ - `kexp np` will grab the current song title, if available.
