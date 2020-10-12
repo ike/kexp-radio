@@ -27,18 +27,34 @@ case "$1" in
         printf "now playing:\n\n Air Break \n\n";;
 
       1)
-        artist="$(echo $json | jq -r '.results[0].artist.name')"
-        track="$(echo $json | jq '.results[0].track.name')"
-        album="$(echo $json | jq '.results[0].release.name')"
-        year="$(echo $json | jq '.results[0].releaseevent.year')"
-        comment="$(echo $json | jq -r '.results[0].comments[0].text')"
+        artist=$(echo $json | jq -r '.results[0].artist.name')
+        track=$(echo $json | jq '.results[0].track.name')
+        album=$(echo $json | jq '.results[0].release.name')
+        year=$(echo $json | jq '.results[0].releaseevent.year')
+        comments=$(echo $json | jq -r '.results[0].comments')
+        comment=$(echo $json | jq -r '.results[0].comments[0].text')
 
-        if [ "$comment" != " " ] ; then
-          printf "now playing:\n\n $track, by $artist on $album ($year) \n $comment\n\n"
-        else
-          printf "now playing:\n\n $track, by $artist on $album ($year) \n\n"
+        np="now playing:\n\n"
+
+        if [[ -n "$track"  ]]; then
+          np="$np $track"
+
+          if [[ -n "$artist"  ]]; then
+            np="$np, by $artist on $album ($year)";
+
+            if [[ ${#comments[@]} -eq 0 ]]; then
+              np="$np\n\n $comment\n\n";
+            else 
+              np="$np\n\n";
+            fi
+          fi
+        else 
+          np="¯\_(ツ)_/¯\n";
         fi
+
+        printf "$np"
         ;;
+
 
       *) printf "now playing:\n\n ¯\_(ツ)_/¯\n $json \n\n";;
     esac
